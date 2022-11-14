@@ -58,8 +58,10 @@
 
       </tr>
    </table>
-   <div id="error-message"></div>
-   <div id="success-message"></div>
+      
+      <div id="error-message"></div>
+      <div id="success-message"></div>
+
 
    <div id="modal">
       <div id="modal-form">
@@ -200,15 +202,32 @@
                   data:{id: id, name: name, age: age},
                   success: function(data){
                      if(data==1){
-                        $('#modal').hide();
+                        $('#modal').hide();                    
                         loadInsert();
-                        
                      }
-                        
                   }
                })
             }
          })
+
+
+         //search bar 
+         $('#search').on('keyup', function(){
+            // e.preventDefault();
+            let search = $(this).val();
+
+            $.ajax({
+               url: "search.php",
+               type: "post",
+               data: {search:search},
+               success: function(data){
+                  $('#table_data').html(data);
+               }
+            })
+
+         })
+
+
       });
 
 
