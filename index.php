@@ -40,7 +40,7 @@
 
          <!-- show data  -->
          <td id="table-data">
-            <table border="1px" cellspadding='10px' cellspacing='0' width='100%'>
+            <!-- <table border="1px" cellspadding='10px' cellspacing='0' width='100%'>
                <thead>
                   <tr>
                      <th>id</th>
@@ -51,23 +51,30 @@
                   </tr>
                </thead>
                <tbody id="table_data">
-                  <!-- here inserted data from ajax -->
+                  
                </tbody>
-            </table>
+            </table> -->
+
+            <!-- <div id="pagination"> -->
+               <!-- <a id="1" href="">1</a>
+               <a id="2" href="">2</a> -->
+               <!-- <a id="3" href="">3</a> -->
+            <!-- </div> -->
+
          </td>
 
       </tr>
    </table>
-      
-      <div id="error-message"></div>
-      <div id="success-message"></div>
+
+   <div id="error-message"></div>
+   <div id="success-message"></div>
 
 
    <div id="modal">
       <div id="modal-form">
          <h2>Edit Form</h2>
          <table id="table" cellpadding="10px" width="100%">
-           
+
          </table>
          <div id="close-btn">X</div>
       </div>
@@ -94,13 +101,15 @@
       $(document).ready(function() {
 
          // data load by page load 
-         function loadInsert() {
+         function loadInsert(pagination_nu) {
             $.ajax({
                url: "ajax-load.php",
                type: "post",
-               // data:,   
+               data: {
+                  page: pagination_nu
+               },
                success: function(data) {
-                  $("#table_data").html(data);
+                  $("#table-data").html(data);
                }
             })
          }
@@ -114,7 +123,7 @@
             let lname = $("#lname").val();
             if (fname == '' || lname == '') {
                $("#err").html("fill all fiels").slideDown();
-               
+
                $('#success').slideUp();
             } else {
                $.ajax({
@@ -174,11 +183,11 @@
             $.ajax({
                url: "load_upload_form.php",
                type: "post",
-               data:{
-                  id:eid
+               data: {
+                  id: eid
                },
-               success:function(data){
-                     $('#table').html(data);
+               success: function(data) {
+                  $('#table').html(data);
                }
             })
          });
@@ -188,21 +197,24 @@
          });
 
          // update data 
-         $(document).on('click', '#edit_data', function(){
+         $(document).on('click', '#edit_data', function() {
             let id = $('#id').val();
             let name = $('#name').val();
             let age = $('#age').val();
-            if(name=='' || age==''){
+            if (name == '' || age == '') {
                // error message
-            }
-            else{
+            } else {
                $.ajax({
                   url: 'update_data.php',
-                  type:'post',
-                  data:{id: id, name: name, age: age},
-                  success: function(data){
-                     if(data==1){
-                        $('#modal').hide();                    
+                  type: 'post',
+                  data: {
+                     id: id,
+                     name: name,
+                     age: age
+                  },
+                  success: function(data) {
+                     if (data == 1) {
+                        $('#modal').hide();
                         loadInsert();
                      }
                   }
@@ -212,25 +224,33 @@
 
 
          //search bar 
-         $('#search').on('keyup', function(){
+         $('#search').on('keyup', function() {
             // e.preventDefault();
             let search = $(this).val();
 
             $.ajax({
                url: "search.php",
                type: "post",
-               data: {search:search},
-               success: function(data){
-                  $('#table_data').html(data);
+               data: {
+                  search: search
+               },
+               success: function(data) {
+                  $('#table-data').html(data);
                }
             })
 
          })
 
 
+         // pagination 
+         $(document).on('click', '#pagination a', function(e){
+            e.preventDefault();
+            let id = $(this).attr('id');
+            loadInsert(id);
+         })
+
+
       });
-
-
    </script>
 
 

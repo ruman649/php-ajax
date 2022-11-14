@@ -146,3 +146,27 @@ h1{
   right: -15px;
   cursor: pointer;
 }
+
+#pagination {
+   margin-top: 20px;
+   text-align: center;  
+}
+
+#pagination li{
+   background-color: #0cdf64;
+   display: inline-block;
+}
+#pagination li a{
+   color: white;
+   border-radius: 5px;
+   font-size: medium;
+   font-weight: 300;
+   padding: 4px 10px;
+   text-decoration: none;
+
+}
+
+
+/* #active{
+   background-color: #1d10d3;
+} */
